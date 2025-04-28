@@ -1,0 +1,6 @@
+def sort_sentence(sentence):
+    return ' '.join(sorted(sentence.split()))
+
+input_sentence = "the quick brown fox jumps over the lazy dog"
+sorted_sentence = sort_sentence(input_sentence)
+print(sorted_sentence)
