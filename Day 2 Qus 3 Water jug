@@ -1,0 +1,48 @@
+from collections import deque
+
+def water_jug_bfs(jug1, jug2, target):
+    visited = set()
+    queue = deque()
+    steps = []
+    queue.append(((0, 0), []))
+
+    while queue:
+        (a, b), path = queue.popleft()
+
+        if (a, b) in visited:
+            continue
+
+        visited.add((a, b))
+        path = path + [(a, b)]
+
+        if a == target or b == target:
+            print("Solution steps:")
+            for step in path:
+                print(step)
+            return True
+        possible_moves = set()
+
+        possible_moves.add((jug1, b))
+        possible_moves.add((a, jug2))
+
+        possible_moves.add((0, b))
+        possible_moves.add((a, 0))
+
+        pour = min(a, jug2 - b)
+        possible_moves.add((a - pour, b + pour))
+
+        pour = min(b, jug1 - a)
+        possible_moves.add((a + pour, b - pour))
+
+        for move in possible_moves:
+            if move not in visited:
+                queue.append((move, path))
+
+    print("No solution found.")
+    return False
+
+jug1_capacity = 4
+jug2_capacity = 3
+target = 2
+
+water_jug_bfs(jug1_capacity, jug2_capacity, target)
