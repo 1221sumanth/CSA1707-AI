@@ -1,0 +1,40 @@
+import random
+
+def vacuum_cleaner_agent():
+    environment = {
+        'A': random.choice(['Clean', 'Dirty']),
+        'B': random.choice(['Clean', 'Dirty'])
+    }
+
+    current_location = 'A'
+
+    print("Initial Environment:")
+    print(environment)
+
+    steps = []
+
+    while 'Dirty' in environment.values():
+        status = environment[current_location]
+        action = ''
+
+        if status == 'Dirty':
+            environment[current_location] = 'Clean'
+            action = f"Suck in room {current_location}"
+        else:
+            if current_location == 'A':
+                current_location = 'B'
+                action = "Move Right to room B"
+            else:
+                current_location = 'A'
+                action = "Move Left to room A"
+
+        steps.append(action)
+        print(f"Action: {action}")
+        print(f"Current Environment: {environment}")
+
+    print("\nAll rooms are clean!")
+    print("Sequence of actions:")
+    for i, act in enumerate(steps, 1):
+        print(f"{i}. {act}")
+
+vacuum_cleaner_agent()
