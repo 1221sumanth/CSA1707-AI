@@ -1,17 +1,19 @@
-import random
+room_A = input("Enter status of room A (Clean/Dirty): ").capitalize()
+room_B = input("Enter status of room B (Clean/Dirty): ").capitalize()
 
-def vacuum_cleaner_agent():
+if room_A not in ['Clean', 'Dirty'] or room_B not in ['Clean', 'Dirty']:
+    print("Invalid input. Please enter 'Clean' or 'Dirty' only.")
+else:
     environment = {
-        'A': random.choice(['Clean', 'Dirty']),
-        'B': random.choice(['Clean', 'Dirty'])
+        'A': room_A,
+        'B': room_B
     }
 
     current_location = 'A'
-
-    print("Initial Environment:")
-    print(environment)
-
     steps = []
+
+    print("\nInitial Environment:")
+    print(environment)
 
     while 'Dirty' in environment.values():
         status = environment[current_location]
@@ -36,5 +38,3 @@ def vacuum_cleaner_agent():
     print("Sequence of actions:")
     for i, act in enumerate(steps, 1):
         print(f"{i}. {act}")
-
-vacuum_cleaner_agent()
