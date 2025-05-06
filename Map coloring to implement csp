@@ -1,0 +1,42 @@
+import matplotlib.pyplot as plt
+
+regions = ['WA', 'NT', 'SA', 'Q', 'NSW', 'V', 'T']
+neighbors = {
+    'WA': ['NT', 'SA'], 'NT': ['WA', 'SA', 'Q'], 'SA': ['WA', 'NT', 'Q', 'NSW', 'V'],
+    'Q': ['NT', 'SA', 'NSW'], 'NSW': ['Q', 'SA', 'V'], 'V': ['SA', 'NSW', 'T'], 'T': ['V']
+}
+pos = {'WA': (0,2), 'NT': (1.5,2), 'SA': (2,1.5), 'Q': (3.5,2),
+       'NSW': (3.5,1), 'V': (2.5,0.5), 'T': (2.5,-0.5)}
+
+colors = ['red', 'green', 'blue']
+assign = {}
+stack = [{}]
+
+while stack:
+    curr = stack.pop()
+    if len(curr) == len(regions):
+        assign = curr
+        break
+    r = [x for x in regions if x not in curr][0]
+    for c in colors:
+        if all(curr.get(n) != c for n in neighbors[r]):
+            new = curr.copy()
+            new[r] = c
+            stack.append(new)
+
+print("Coloring:")
+for r in regions: print(f"{r}: {assign[r]}")
+
+plt.figure(figsize=(8,6))
+for r in regions:
+    x, y = pos[r]
+    plt.scatter(x, y, s=2000, c=assign[r])
+    plt.text(x, y, r, color='white', ha='center', va='center', fontsize=12)
+for r in neighbors:
+    for n in neighbors[r]:
+        x1, y1 = pos[r]
+        x2, y2 = pos[n]
+        plt.plot([x1, x2], [y1, y2], 'k')
+plt.axis('off')
+plt.title('Map Coloring - Australia')
+plt.show()
